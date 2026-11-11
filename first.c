@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <ctype.h>
+
+char prod[20][20];
+int n;
+int done[26] = {0};
+void first(char c)
+{
+    int i;
+    for (i = 0; i < n; i++)
+    {
+        if (prod[i][0] == c)
+        {
+            char ch = prod[i][3];
+
+            if (ch == 'i' && prod[i][4] == 'd')
+                printf("id ");
+            else if (!isupper(ch))
+                printf("%c ", ch);
+            else if (ch != c)
+                first(ch);
+        }
+    }
+}
+
+int main()
+{
+    int i;
+
+    printf("Enter number of productions: ");
+    scanf("%d", &n);
+    char c;
+    printf("Enter productions:\n");
+
+    for (i = 0; i < n; i++)
+        scanf("%s", prod[i]);
+
+    printf("\nFIRST sets:\n");
+
+    for (i = 0; i < n; i++)
+    {
+        c = prod[i][0];
+
+        if (done[c - 'A'] == 0)
+        {
+            printf("FIRST(%c) = { ", c);
+            first(c);
+            printf("}\n");
+
+            done[c - 'A'] = 1;
+        }
+    }
+
+    return 0;
+}
